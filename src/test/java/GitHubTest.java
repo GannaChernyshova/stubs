@@ -35,7 +35,7 @@ public class GitHubTest {
                                 "      \"name\": \"jira-clone-angular\",\n" +
                                 "      \"full_name\": \"trungk18/jira-clone-angular\",\n" +
                                 "      \"html_url\": \"https://github.com/trungk18/jira-clone-angular\",\n" +
-                                "      \"description\": \"A simplified Jira clone built with Angular 9, ng-zorro and Akita\" ]}")));
+                                "      \"description\": \"A simplified Jira clone built with Angular 9, ng-zorro and Akita\" }]}")));
 
     }
 
