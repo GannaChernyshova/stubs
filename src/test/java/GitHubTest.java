@@ -33,7 +33,7 @@ public class GitHubTest {
     @Test
     @DisplayName("Verify that /search/repositories response contains query in description")
     void testRepoSearch() {
-        RestAssured.baseURI = "https://api.github.com";
+        RestAssured.baseURI = "http://localhost:8097";
         RestAssured.basePath = "/search/repositories";
         String searchQuery = "topic:akita";
         ResponseBodyExtractionOptions response = given().log().everything()
