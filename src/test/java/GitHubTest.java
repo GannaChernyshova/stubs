@@ -1,5 +1,6 @@
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ResponseBodyExtractionOptions;
@@ -15,7 +16,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class GitHubTest {
     private static WireMockServer wireMockServer =
-            new WireMockServer(WireMockConfiguration.options().port(8097));
+            new WireMockServer(WireMockConfiguration.options()
+                    .extensions(new ResponseTemplateTransformer(false))
+                    .port(8097));
 
     @BeforeAll
     public static void beforeAll() {
@@ -25,6 +28,7 @@ public class GitHubTest {
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
+                        .withTransformers("response-template")
                         .withBody("{\n" +
                                 "  \"total_count\": 39,\n" +
                                 "  \"incomplete_results\": false,\n" +
@@ -35,7 +39,7 @@ public class GitHubTest {
                                 "      \"name\": \"jira-clone-angular\",\n" +
                                 "      \"full_name\": \"trungk18/jira-clone-angular\",\n" +
                                 "      \"html_url\": \"https://github.com/trungk18/jira-clone-angular\",\n" +
-                                "      \"description\": \"A simplified Jira clone built with Angular 9, ng-zorro and Akita\" }]}")));
+                                "      \"description\": \"{{request.query.q}}\" }]}")));
 
     }
 
