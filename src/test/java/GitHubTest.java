@@ -25,7 +25,17 @@ public class GitHubTest {
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody("Hello world!")));
+                        .withBody("{\n" +
+                                "  \"total_count\": 39,\n" +
+                                "  \"incomplete_results\": false,\n" +
+                                "  \"items\": [\n" +
+                                "    {\n" +
+                                "      \"id\": 271826090,\n" +
+                                "      \"node_id\": \"MDEwOlJlcG9zaXRvcnkyNzE4MjYwOTA=\",\n" +
+                                "      \"name\": \"jira-clone-angular\",\n" +
+                                "      \"full_name\": \"trungk18/jira-clone-angular\",\n" +
+                                "      \"html_url\": \"https://github.com/trungk18/jira-clone-angular\",\n" +
+                                "      \"description\": \"A simplified Jira clone built with Angular 9, ng-zorro and Akita\" ]}")));
 
     }
 
