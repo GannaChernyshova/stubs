@@ -1,14 +1,34 @@
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ResponseBodyExtractionOptions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
 public class GitHubTest {
+    private static WireMockServer wireMockServer =
+            new WireMockServer(WireMockConfiguration.options().port(8097));
+
+    @BeforeAll
+    public static void beforeAll() {
+        wireMockServer.start();
+        configureFor("localhost", 8097);
+        stubFor(get(urlMatching("/search/repositories\\?q=.*"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("Hello world!")));
+
+    }
+
 
     @Test
     @DisplayName("Verify that /search/repositories response contains query in description")
@@ -26,4 +46,8 @@ public class GitHubTest {
         assertThat(response.jsonPath().getString("items[0].description").toLowerCase()).contains("akita");
     }
 
+    @AfterAll
+    public static void afterAll() {
+        wireMockServer.stop();
+    }
 }
